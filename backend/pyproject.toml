@@ -1,0 +1,66 @@
+[project]
+name = "backend"
+version = "0.1.0"
+description = ""
+authors = [
+    { name = "Simone Mozzaia", email = "git@simonemozzaia.it" }
+]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "mysqlclient (>=2.2.7,<3.0.0)"
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+python = ">=3.13,<4.0"
+
+[tool.poetry]
+package-mode = false
+
+[dependency-groups]
+dev = [
+    "ruff (>=0.14.10,<0.15.0)",
+    "pytest (>=9.0.2,<10.0.0)",
+    "pytest-django (>=4.11.1,<5.0.0)",
+    "mypy (>=1.19.1,<2.0.0)",
+    "django-stubs (>=5.2.8,<6.0.0)",
+    "djangorestframework-stubs (>=3.16.6,<4.0.0)",
+    "coverage (>=7.13.0,<8.0.0)",
+    "pre-commit (>=4.5.1,<5.0.0)"
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E501"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["test_*.py", "*_test.py"]
+addopts = "-q"
+
+[tool.mypy]
+python_version = "3.13"
+warn_return_any = true
+warn_unused_configs = true
+no_implicit_optional = true
+strict_optional = true
+check_untyped_defs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+
+plugins = ["mypy_django_plugin.main"]
+
+[tool.django-stubs]
+django_settings_module = "config.settings"
