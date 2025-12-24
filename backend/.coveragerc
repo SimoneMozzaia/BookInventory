@@ -1,0 +1,14 @@
+[run]
+branch = True
+source =
+    apps
+omit =
+    */migrations/*
+    */tests/*
+    */.venv/*
+    config/*
+    manage.py
+
+[report]
+skip_empty = True
+show_missing = True

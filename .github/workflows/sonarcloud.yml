@@ -48,6 +48,14 @@ jobs:
             --show-column-numbers --no-error-summary --pretty false \
             > reports/mypy.txt || true
 
+      - name: Run tests with coverage (Python)
+        working-directory: backend
+        env:
+          POETRY_VIRTUALENVS_IN_PROJECT: "true"
+        run: |
+          ../backend/.venv/bin/coverage run -m pytest
+          ../backend/.venv/bin/coverage xml -o ../reports/coverage.xml
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v7
         env:
