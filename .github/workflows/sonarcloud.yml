@@ -43,6 +43,19 @@ jobs:
         run: |
           poetry install --with dev
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install frontend deps
+        working-directory: frontend
+        run: npm ci
+
+      - name: Frontend tests with coverage (LCOV)
+        working-directory: frontend
+        run: npm run test:coverage
+
       - name: Generate external reports (Ruff, Mypy)
         env:
           POETRY_VIRTUALENVS_IN_PROJECT: "true"
@@ -56,6 +69,11 @@ jobs:
           backend/.venv/bin/mypy backend/config backend/apps backend/tests \
             --show-column-numbers --no-error-summary --pretty false \
             > reports/mypy.txt || true
+
+          # ESLint JSON
+          cd frontend
+          npx eslint . -f json -o ../reports/eslint.json || true
+          cd ..
 
       - name: Run tests with coverage (Python)
         working-directory: backend
